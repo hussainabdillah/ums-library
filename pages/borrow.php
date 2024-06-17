@@ -11,8 +11,12 @@ require '../includes/config.php';
 $member_id = $_SESSION["member_id"];
 $name = $_SESSION["name"];
 
+// Query untuk mengambil semua buku
+$sql_books = "SELECT book_id, title FROM books";
+$result_books = mysqli_query($conn, $sql_books);
+
 // Query untuk mengambil buku yang dipinjam oleh member yang sedang login
-$sql = "
+$sql_borrowed_books = "
 SELECT 
     b.title AS book_title,
     b.author AS book_author,
@@ -27,45 +31,44 @@ JOIN
 WHERE 
     bb.member_id = ?
 ORDER BY 
-    bb.borrow_date DESC;
+    bb.borrow_date ASC;
 ";
 
-if ($stmt = mysqli_prepare($conn, $sql)) {
+$borrowed_books = [];
+if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
     mysqli_stmt_bind_param($stmt, "i", $member_id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $book_title, $book_author, $published_year, $borrow_date, $return_date, $returned_date);
+    while (mysqli_stmt_fetch($stmt)) {
+        $borrowed_books[] = [
+            'book_title' => $book_title,
+            'book_author' => $book_author,
+            'published_year' => $published_year,
+            'borrow_date' => $borrow_date,
+            'return_date' => $return_date,
+            'returned_date' => $returned_date
+        ];
+    }
+    mysqli_stmt_close($stmt);
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>UMS Library - Borrow</title>
-
-    <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
-
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -150,13 +153,11 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
 
         </ul>
         <!-- End of Sidebar -->
-
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -199,12 +200,10 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                <!-- Page Heading -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Borrowed Books</h1>
-                        
                     </div>
 
                     <!-- Content Row -->
@@ -221,7 +220,9 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                                             <label for="book_id">Select Book:</label>
                                             <select class="form-control" id="book_id" name="book_id" required>
                                                 <option value="">-- Select Book --</option>
-                                                    <option value="24">How Rich People I Think</option>
+                                                <?php while ($book = mysqli_fetch_assoc($result_books)): ?>
+                                                    <option value="<?php echo $book['book_id']; ?>"><?php echo htmlspecialchars($book['title']); ?></option>
+                                                <?php endwhile; ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -235,11 +236,12 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                         </div>
                     </div>
 
+                    <!-- Content Row -->
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Books Borrowed by <?php echo htmlspecialchars($_SESSION['name']); ?></h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Books Borrowed by <?php echo htmlspecialchars($name); ?></h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -255,22 +257,16 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
-                                                if ($stmt) {
-                                                    while (mysqli_stmt_fetch($stmt)) {
-                                                        echo "<tr>";
-                                                        echo "<td>" . htmlspecialchars($book_title) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($book_author) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($published_year) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($borrow_date) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($return_date) . "</td>";
-                                                        echo "<td>" . htmlspecialchars($returned_date) . "</td>";
-                                                        echo "</tr>";
-                                                    }
-                                                    mysqli_stmt_close($stmt);
-                                                }
-                                                mysqli_close($conn);
-                                                ?>
+                                                <?php foreach ($borrowed_books as $book): ?>
+                                                    <tr>
+                                                        <td><?php echo htmlspecialchars($book['book_title']); ?></td>
+                                                        <td><?php echo htmlspecialchars($book['book_author']); ?></td>
+                                                        <td><?php echo htmlspecialchars($book['published_year']); ?></td>
+                                                        <td><?php echo htmlspecialchars($book['borrow_date']); ?></td>
+                                                        <td><?php echo htmlspecialchars($book['return_date']); ?></td>
+                                                        <td><?php echo htmlspecialchars($book['returned_date']); ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -293,7 +289,6 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                 </div>
             </footer>
             <!-- End of Footer -->
-
         </div>
         <!-- End of Content Wrapper -->
 
@@ -328,20 +323,14 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-
     <!-- Page level plugins -->
     <script src="../vendor/chart.js/Chart.min.js"></script>
-
     <!-- Page level custom scripts -->
     <script src="../js/demo/chart-area-demo.js"></script>
     <script src="../js/demo/chart-pie-demo.js"></script>
-
 </body>
-
 </html>
