@@ -8,6 +8,19 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 $name = $_SESSION["name"];
+$member_id = $_SESSION["member_id"];
+
+// Query to get the count of borrowed books
+$sql = "SELECT COUNT(*) as total_borrowed_books FROM borrowed_books WHERE member_id = ?";
+if ($stmt = mysqli_prepare($conn, $sql)) {
+    mysqli_stmt_bind_param($stmt, "i", $member_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $total_borrowed_books);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+} else {
+    $total_borrowed_books = 0;
+}
 
 // Query to get the count of books
 $sql = "SELECT COUNT(*) AS total_books FROM books";
@@ -219,7 +232,7 @@ mysqli_close($conn);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Borrowed Books</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_borrowed_books; ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-book-reader fa-2x text-gray-300"></i>
