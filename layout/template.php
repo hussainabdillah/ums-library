@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once '../includes/config.php';
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: ../index.php");
@@ -8,35 +7,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 $name = $_SESSION["name"];
-
-// Query to get the count of books
-$sql = "SELECT COUNT(*) AS total_books FROM books";
-$result = mysqli_query($conn, $sql);
-
-$totalBooks = 0;
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $totalBooks = $row['total_books'];
-} else {
-    echo "Error fetching total books: " . mysqli_error($conn);
-}
-
-// Query to get the count of members
-$sql = "SELECT COUNT(*) AS total_members FROM member";
-$result = mysqli_query($conn, $sql);
-
-$totalMembers = 0;
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $totalMembers = $row['total_members'];
-} else {
-    echo "Error fetching total members: " . mysqli_error($conn);
-}
-
-// Close connection
-mysqli_close($conn);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -211,77 +182,7 @@ mysqli_close($conn);
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Borrowed Books Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Borrowed Books</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-book-reader fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Available Books Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Available Books</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalBooks; ?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-book fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Member Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Member
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalMembers; ?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Late Books Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Books Returned Late</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <!-- Content Row -->

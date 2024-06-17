@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once '../includes/config.php';
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: ../index.php");
@@ -8,35 +7,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 $name = $_SESSION["name"];
-
-// Query to get the count of books
-$sql = "SELECT COUNT(*) AS total_books FROM books";
-$result = mysqli_query($conn, $sql);
-
-$totalBooks = 0;
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $totalBooks = $row['total_books'];
-} else {
-    echo "Error fetching total books: " . mysqli_error($conn);
-}
-
-// Query to get the count of members
-$sql = "SELECT COUNT(*) AS total_members FROM member";
-$result = mysqli_query($conn, $sql);
-
-$totalMembers = 0;
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $totalMembers = $row['total_members'];
-} else {
-    echo "Error fetching total members: " . mysqli_error($conn);
-}
-
-// Close connection
-mysqli_close($conn);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,7 +53,7 @@ mysqli_close($conn);
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -97,7 +68,7 @@ mysqli_close($conn);
             </div>
             
             <!-- Nav Item - Books -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="books.php">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>List of Books</span></a>
@@ -204,116 +175,41 @@ mysqli_close($conn);
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Available Books</h1>
                         
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Borrowed Books Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Borrowed Books</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-book-reader fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <?php
+                        require '../includes/config.php';
 
-                        <!-- Available Books Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Available Books</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalBooks; ?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-book fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        // Ambil data buku dari database
+                        $sql = "SELECT cover, title, author, published_year FROM books";
+                        $result = mysqli_query($conn, $sql);
 
-                        <!-- Member Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Member
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalMembers; ?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        if (mysqli_num_rows($result) > 0) {
+                            // Tampilkan data buku dalam bentuk card
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo '<div class="col-lg-3 col-md-6 mb-4">';
+                                echo '    <div class="card shadow mb-4">';
+                                echo '        <img class="card-img-top" src="../img/cover/' . htmlspecialchars($row["cover"]) . '" alt="' . htmlspecialchars($row["title"]) . '">';
+                                echo '        <div class="card-body">';
+                                echo '            <h5 class="card-title">' . htmlspecialchars($row["title"]) . '</h5>';
+                                echo '            <p class="card-text">By ' . htmlspecialchars($row["author"]) . '</p>';
+                                echo '            <p class="card-text">Published: ' . htmlspecialchars($row["published_year"]) . '</p>';
+                                echo '        </div>';
+                                echo '    </div>';
+                                echo '</div>';
+                            }
+                        } else {
+                            echo "No books found.";
+                        }
 
-                        <!-- Late Books Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Books Returned Late</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
+                        mysqli_close($conn);
+                        ?>
                         
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            
-
-                            <!-- Color System -->
-                            
-
-                        </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            
-
-                            <!-- Approach -->
-                            
-
-                        </div>
                     </div>
 
                 </div>
