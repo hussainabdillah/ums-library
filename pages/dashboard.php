@@ -46,6 +46,26 @@ if ($result) {
     echo "Error fetching total members: " . mysqli_error($conn);
 }
 
+// Query to get the count of late returned books
+$sql_late_books = "
+SELECT 
+    COUNT(*) AS late_books_count
+FROM 
+    borrowed_books 
+WHERE 
+    member_id = ? AND returned_date IS NOT NULL AND returned_date > return_date
+";
+
+if ($stmt = mysqli_prepare($conn, $sql_late_books)) {
+    mysqli_stmt_bind_param($stmt, "i", $member_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $late_books_count);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+} else {
+    $late_books_count = 0; // Default value if query fails
+}
+
 // Close connection
 mysqli_close($conn);
 ?>
@@ -286,7 +306,7 @@ mysqli_close($conn);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Books Returned Late</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $late_books_count; ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>

@@ -203,7 +203,7 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
                 <!-- Page Heading -->
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Borrowed Books</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Borrow Books</h1>
                     </div>
 
                     <!-- Content Row -->
