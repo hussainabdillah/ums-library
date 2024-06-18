@@ -11,46 +11,7 @@ require '../includes/config.php';
 $member_id = $_SESSION["member_id"];
 $name = $_SESSION["name"];
 
-// Query untuk mengambil semua buku
-$sql_books = "SELECT book_id, title FROM books";
-$result_books = mysqli_query($conn, $sql_books);
 
-// Query untuk mengambil buku yang dipinjam oleh member yang sedang login
-$sql_borrowed_books = "
-SELECT 
-    b.title AS book_title,
-    b.author AS book_author,
-    b.published_year,
-    bb.borrow_date,
-    bb.return_date,
-    bb.returned_date
-FROM 
-    borrowed_books bb
-JOIN 
-    books b ON bb.book_id = b.book_id
-WHERE 
-    bb.member_id = ?
-ORDER BY 
-    bb.borrow_date ASC;
-";
-
-$borrowed_books = [];
-if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
-    mysqli_stmt_bind_param($stmt, "i", $member_id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $book_title, $book_author, $published_year, $borrow_date, $return_date, $returned_date);
-    while (mysqli_stmt_fetch($stmt)) {
-        $borrowed_books[] = [
-            'book_title' => $book_title,
-            'book_author' => $book_author,
-            'published_year' => $published_year,
-            'borrow_date' => $borrow_date,
-            'return_date' => $return_date,
-            'returned_date' => $returned_date
-        ];
-    }
-    mysqli_stmt_close($stmt);
-}
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +22,7 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>UMS Library - Borrow</title>
+    <title>UMS Library - Add Book</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
@@ -106,13 +67,13 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
             </li>
 
             <!-- Nav Item - Add Books -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="add_book.php">
                     <i class="fas fa-fw fa-plus-circle"></i>
                     <span>Add Books</span></a>
             </li>
             
-            <!-- Nav Item - Delete Book -->
+            <!-- Nav Item - Delete Books -->
             <li class="nav-item">
                 <a class="nav-link" href="delete_book.php">
                     <i class="fas fa-fw fa-trash"></i>
@@ -128,7 +89,7 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
             </div>
             
             <!-- Nav Item - Borrow -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="borrow.php">
                     <i class="fas fa-fw fa-shopping-cart"></i>
                     <span>Borrow</span></a>
@@ -140,7 +101,7 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
                     <i class="fas fa-fw fa-handshake"></i>
                     <span>Return</span></a>
             </li>
-            
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -217,77 +178,46 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
                 <!-- Page Heading -->
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Borrow Books</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Add Books</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
-                        <!-- Form untuk meminjam buku -->
-                        <div class="col-lg-12">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Borrow Book</h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="process_borrow.php" method="POST">
-                                        <div class="form-group">
-                                            <label for="book_id">Select Book:</label>
-                                            <select class="form-control" id="book_id" name="book_id" required>
-                                                <option value="">-- Select Book --</option>
-                                                <?php while ($book = mysqli_fetch_assoc($result_books)): ?>
-                                                    <option value="<?php echo $book['book_id']; ?>"><?php echo htmlspecialchars($book['title']); ?></option>
-                                                <?php endwhile; ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="borrow_date">Borrow Date:</label>
-                                            <input type="date" class="form-control" id="borrow_date" name="borrow_date" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Borrow</button>
-                                    </form>
-                                </div>
+                      <div class="col-lg-12">
+                        <div class="card shadow mb-4">
+                          <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Add New Book</h6>
+                          </div>
+                        <div class="card-body">
+                          <form action="process_add_book.php" method="post">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" name="title" id="title" class="form-control" required>
                             </div>
+                            <div class="form-group">
+                                <label for="author">Author</label>
+                                <input type="text" name="author" id="author" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="published_year">Published Year</label>
+                                <input type="number" name="published_year" id="published_year" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="isbn">ISBN</label>
+                                <input type="text" name="isbn" id="isbn" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Add Book</button>
+                            </div>
+                          </form>
                         </div>
+                      </div>
+                    </div>
+
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Books Borrowed by <?php echo htmlspecialchars($name); ?></h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Title</th>
-                                                    <th>Author</th>
-                                                    <th>Published Year</th>
-                                                    <th>Borrow Date</th>
-                                                    <th>Return Date</th>
-                                                    <th>Returned Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($borrowed_books as $book): ?>
-                                                    <tr>
-                                                        <td><?php echo htmlspecialchars($book['book_title']); ?></td>
-                                                        <td><?php echo htmlspecialchars($book['book_author']); ?></td>
-                                                        <td><?php echo htmlspecialchars($book['published_year']); ?></td>
-                                                        <td><?php echo htmlspecialchars($book['borrow_date']); ?></td>
-                                                        <td><?php echo htmlspecialchars($book['return_date']); ?></td>
-                                                        <td><?php echo htmlspecialchars($book['returned_date']); ?></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 

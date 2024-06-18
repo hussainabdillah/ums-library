@@ -20,7 +20,7 @@ $member_id = $_SESSION["member_id"];
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>UMS Library - Return</title>
+    <title>UMS Library - About</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
@@ -64,6 +64,20 @@ $member_id = $_SESSION["member_id"];
                     <span>List of Books</span></a>
             </li>
 
+            <!-- Nav Item - Add Books -->
+            <li class="nav-item">
+                <a class="nav-link" href="add_book.php">
+                    <i class="fas fa-fw fa-plus-circle"></i>
+                    <span>Add Books</span></a>
+            </li>
+            
+            <!-- Nav Item - Delete Books -->
+            <li class="nav-item">
+                <a class="nav-link" href="delete_book.php">
+                    <i class="fas fa-fw fa-trash"></i>
+                    <span>Delete Books</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -79,7 +93,7 @@ $member_id = $_SESSION["member_id"];
                     <span>Borrow</span></a>
             </li>
             
-            <!-- Nav Item - Returns -->
+            <!-- Nav Item - Return -->
             <li class="nav-item">
                 <a class="nav-link" href="return.php">
                     <i class="fas fa-fw fa-handshake"></i>

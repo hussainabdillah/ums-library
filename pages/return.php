@@ -103,6 +103,19 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
                     <span>List of Books</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="add_book.php">
+                    <i class="fas fa-fw fa-plus-circle"></i>
+                    <span>Add Books</span></a>
+            </li>
+            
+            <!-- Nav Item - Delete Book -->
+            <li class="nav-item">
+                <a class="nav-link" href="return.php">
+                    <i class="fas fa-fw fa-trash"></i>
+                    <span>Delete Books</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -118,7 +131,7 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
                     <span>Borrow</span></a>
             </li>
             
-            <!-- Nav Item - Returns -->
+            <!-- Nav Item - Return -->
             <li class="nav-item active">
                 <a class="nav-link" href="return.php">
                     <i class="fas fa-fw fa-handshake"></i>
