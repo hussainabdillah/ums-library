@@ -169,7 +169,7 @@ mysqli_close($conn);
             <!-- Nav Item - About -->
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="about.php">
                     <i class="fas fa-fw fa-info-circle"></i>
                     <span>About Us</span></a>
             </li>
@@ -319,10 +319,53 @@ mysqli_close($conn);
 
                     <!-- Content Row -->
 
-                    <div class="row">
-
-                        
+                    <!-- Favorite Books Section -->
+<div class="row">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Featured Books of the Week</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="row">
+                    <!-- Example Book 1 -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="../img/cover/The Lean Startup.png" alt="The Lean Startup Cover">
+                            <div class="card-body">
+                                <h4 class="card-title">The Lean Startup</h4>
+                                <p class="card-text">Buku ini ditulis oleh Eric Ries dan membahas metodologi untuk membangun perusahaan startup dengan pendekatan yang inovatif dan efisien. Eric Ries menyarankan pendekatan yang berfokus pada pengujian hipotesis dan pembelajaran cepat untuk mengurangi risiko dan meningkatkan keberhasilan bisnis startup.</p>
+                            </div>
+                        </div>
                     </div>
+                    <!-- Example Book 2 -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="../img/cover/Spy X Family 2.png" alt="Spy X Family Cover">
+                            <div class="card-body">
+                                <h4 class="card-title">Spy X Family</h4>
+                                <p class="card-text">Ini adalah manga karya Tatsuya Endo yang mengikuti kisah seorang mata-mata yang menyamar sebagai kepala keluarga untuk misi rahasia, hanya untuk menemukan bahwa putri angkatnya adalah seorang psikis yang dapat membaca pikirannya. Komedi dan jebakan sehari-hari dengan sentuhan komedi dijamin menghibur.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Example Book 3 -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="../img/cover/The Lord of the Rings.png" alt="The Lord of the Rings Cover">
+                            <div class="card-body">
+                                <h4 class="card-title">The Lord of the Rings</h4>
+                                <p class="card-text">Karya J.R.R. Tolkien adalah kisah epik fantasi yang memikat tentang perjalanan Frodo Baggins dan rekan-rekannya untuk menghancurkan cincin kekuatan yang jahat di Mordor. Dengan dunia yang dalam, karakter yang kompleks, dan tema-tema universal, novel ini telah menjadi klasik modern dan inspirasi bagi banyak karya fantasi lainnya.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                     <!-- Content Row -->
                     <div class="row">

@@ -136,7 +136,7 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
             <!-- Nav Item - About -->
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="about.php">
                     <i class="fas fa-fw fa-info-circle"></i>
                     <span>About Us</span></a>
             </li>

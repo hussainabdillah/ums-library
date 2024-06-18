@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../includes/config.php';
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: ../index.php");
@@ -7,37 +8,26 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 $name = $_SESSION["name"];
+$member_id = $_SESSION["member_id"];
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>UMS Library - Books</title>
-
-    <!-- Custom fonts for this template-->
+    <title>UMS Library - Return</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
-
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -68,7 +58,7 @@ $name = $_SESSION["name"];
             </div>
             
             <!-- Nav Item - Books -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="books.php">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>List of Books</span></a>
@@ -93,7 +83,7 @@ $name = $_SESSION["name"];
             <li class="nav-item">
                 <a class="nav-link" href="return.php">
                     <i class="fas fa-fw fa-handshake"></i>
-                    <span>Returns</span></a>
+                    <span>Return</span></a>
             </li>
             
             <!-- Divider -->
@@ -106,7 +96,7 @@ $name = $_SESSION["name"];
 
             <!-- Nav Item - About -->
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="about.php">
                     <i class="fas fa-fw fa-info-circle"></i>
                     <span>About Us</span></a>
@@ -122,13 +112,11 @@ $name = $_SESSION["name"];
 
         </ul>
         <!-- End of Sidebar -->
-
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -171,45 +159,77 @@ $name = $_SESSION["name"];
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                <!-- Page Heading -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Available Books</h1>
-                        
+                        <h1 class="h3 mb-0 text-gray-800">About Us</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Our Mission</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>At UMS Library, our mission is to provide access to a vast collection of resources to support the educational and research needs of our community. We strive to create a welcoming environment where learning and creativity can thrive.</p>
+                                </div>
+                            </div>
+                        </div>
 
-                    <?php
-                        require '../includes/config.php';
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Our Vision</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>We envision a future where UMS Library is the cornerstone of academic and intellectual growth, fostering a community of lifelong learners and innovative thinkers. We aim to be a leader in library services, embracing new technologies and ideas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        // Ambil data buku dari database
-                        $sql = "SELECT cover, title, author, published_year FROM books";
-                        $result = mysqli_query($conn, $sql);
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Our History</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>Founded in  25 October 1981, UMS Library has grown from a small collection of books to a comprehensive resource center. Over the years, we have expanded our services and collections to meet the evolving needs of our community. Our dedicated staff works tirelessly to maintain the highest standards of service and resource management.</p>
+                                </div>
+                            </div>
+                        </div>
 
-                        if (mysqli_num_rows($result) > 0) {
-                            // Tampilkan data buku dalam bentuk card
-                            while($row = mysqli_fetch_assoc($result)) {
-                                echo '<div class="col-lg-3 col-md-6 mb-4">';
-                                echo '    <div class="card shadow mb-4">';
-                                echo '        <img class="card-img-top" src="../img/cover/' . htmlspecialchars($row["cover"]) . '" alt="' . htmlspecialchars($row["title"]) . '">';
-                                echo '        <div class="card-body">';
-                                echo '            <h5 class="card-title">' . htmlspecialchars($row["title"]) . '</h5>';
-                                echo '            <p class="card-text">By ' . htmlspecialchars($row["author"]) . '</p>';
-                                echo '            <p class="card-text">Published: ' . htmlspecialchars($row["published_year"]) . '</p>';
-                                echo '        </div>';
-                                echo '    </div>';
-                                echo '</div>';
-                            }
-                        } else {
-                            echo "No books found.";
-                        }
-
-                        mysqli_close($conn);
-                        ?>
-                        
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Contact Us</h6>
+                                </div>
+                                <div class="card-body">
+                                <p>If you have any questions or need assistance, please feel free to reach out to us. Our team is here to help you with all your library needs.</p>
+                                    <table>
+                                      <tr>
+                                        <td><strong>Address</strong></td>
+                                        <td>:</td>
+                                        <td> Jl. A. Yani Tromol Pos I Pabelan Surakarta 57102.</td>
+                                      </tr>
+                                      <tr>
+                                        <td><strong>Phone</strong></td>
+                                        <td>:</td>
+                                        <td> (0813) 2685 9003</td>
+                                      </tr>
+                                      <tr>
+                                        <td><strong>Email</strong></td>
+                                        <td>:</td>
+                                        <td> library@ums.edu</td>
+                                      </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -227,7 +247,6 @@ $name = $_SESSION["name"];
                 </div>
             </footer>
             <!-- End of Footer -->
-
         </div>
         <!-- End of Content Wrapper -->
 
@@ -262,20 +281,14 @@ $name = $_SESSION["name"];
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-
     <!-- Page level plugins -->
     <script src="../vendor/chart.js/Chart.min.js"></script>
-
     <!-- Page level custom scripts -->
     <script src="../js/demo/chart-area-demo.js"></script>
     <script src="../js/demo/chart-pie-demo.js"></script>
-
 </body>
-
 </html>
