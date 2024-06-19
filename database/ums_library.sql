@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2024 at 03:15 AM
+-- Generation Time: Jun 19, 2024 at 11:26 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -55,31 +55,32 @@ CREATE TABLE `books` (
   `isbn` varchar(20) NOT NULL,
   `published_year` year(4) NOT NULL,
   `available` tinyint(1) DEFAULT 1,
-  `cover` varchar(255) DEFAULT NULL
+  `cover` varchar(255) DEFAULT NULL,
+  `genre` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `books`
 --
 
-INSERT INTO `books` (`book_id`, `title`, `author`, `isbn`, `published_year`, `available`, `cover`) VALUES
-(1, 'The Great Gatsby', 'F. Scott Fitzgerald', '9780743273565', 1925, 1, 'The Great Gatsby.png'),
-(2, 'To Kill a Mockingbird', 'Harper Lee', '9780061120084', 1960, 1, 'To Kill a Mockingbird.png'),
-(3, '1984', 'George Orwell', '9780451524935', 1949, 1, '1984.png'),
-(4, 'Pride and Prejudice', 'Jane Austen', '9781503290563', 1901, 1, 'Pride and Prejudice.png'),
-(17, 'Spy X Family', 'Tatsuya Endo', '9781234567890', 2019, 1, 'Spy X Family.png'),
-(18, 'Al Mustafa Republish', 'Kahlil Gibran', '9781234567891', 2014, 1, 'Al Mustafa Republish.png'),
-(19, 'Alice in Wonderland', 'Lewiss Carroll', '9781234567892', 1901, 1, 'Alice in Wonderland.png'),
-(20, 'Brave New World', 'Aldous Huxley', '9781234567893', 1932, 1, 'Brave New World.png'),
-(21, 'Detektif hantu', 'Risa Saraswati', '9781234567894', 2023, 1, 'Detektif hantu.png'),
-(22, 'Harry Potter and the Philosopher\'s Stone', 'J.K Rowling', '9781234567895', 1997, 1, 'Harry Potter and the Philosopher\'s Stone.png'),
-(23, 'A Promised Land', 'Barack Obama', '9789876543210', 2020, 1, 'A Promised Land.png'),
-(24, 'How Rich People Think', 'Steve Siebold', '9789876543211', 2010, 1, 'How Rich People Think.png'),
-(26, 'Laut Bercerita', 'Leila Chudori', '9789876543213', 2017, 1, 'Laut Bercerita.png'),
-(27, 'Kisah Tanah Jawa', 'Bonaventura D. Genta, Mada Zidan', '9789876543214', 2018, 1, 'Kisah Tanah Jawa.png'),
-(28, 'KKN di Desa Penari', 'Simple Man', '9789876543215', 2018, 1, 'KKN di Desa Penari.png'),
-(29, 'Sebuah Seni untuk Bersikap Bodo Amat', 'Mark Manson', '9780062457714', 2018, 1, 'Sebuah Seni untuk Bersikap Bodo Amat.png'),
-(30, 'The Lean Startup', 'Eric Ries', '90813901803', 2019, 1, 'The Lean Startup.png');
+INSERT INTO `books` (`book_id`, `title`, `author`, `isbn`, `published_year`, `available`, `cover`, `genre`) VALUES
+(1, 'The Great Gatsby', 'F. Scott Fitzgerald', '9780743273565', 1925, 1, 'The Great Gatsby.png', 'Tragedy'),
+(2, 'To Kill a Mockingbird', 'Harper Lee', '9780061120084', 1960, 1, 'To Kill a Mockingbird.png', 'Southern Gothic Bildungsroman'),
+(3, '1984', 'George Orwell', '9780451524935', 1949, 1, '1984.png', 'Sci-Fi'),
+(4, 'Pride and Prejudice', 'Jane Austen', '9781503290563', 1901, 1, 'Pride and Prejudice.png', 'Romance'),
+(17, 'Spy X Family', 'Tatsuya Endo', '9781234567890', 2019, 1, 'Spy X Family.png', 'Comedy'),
+(18, 'Al Mustafa Republish', 'Kahlil Gibran', '9781234567891', 2014, 1, 'Al Mustafa Republish.png', 'Motivation'),
+(19, 'Alice in Wonderland', 'Lewiss Carroll', '9781234567892', 1901, 1, 'Alice in Wonderland.png', 'Action'),
+(20, 'Brave New World', 'Aldous Huxley', '9781234567893', 1932, 1, 'Brave New World.png', 'Sci-Fi'),
+(21, 'Detektif hantu', 'Risa Saraswati', '9781234567894', 2023, 1, 'Detektif hantu.png', 'Comedy'),
+(22, 'Harry Potter and the Philosopher\'s Stone', 'J.K Rowling', '9781234567895', 1997, 1, 'Harry Potter and the Philosopher\'s Stone.png', 'Adventure'),
+(23, 'A Promised Land', 'Barack Obama', '9789876543210', 2020, 1, 'A Promised Land.png', 'Biography'),
+(24, 'How Rich People Think', 'Steve Siebold', '9789876543211', 2010, 1, 'How Rich People Think.png', 'Self-help Book'),
+(26, 'Laut Bercerita', 'Leila Chudori', '9789876543213', 2017, 1, 'Laut Bercerita.png', 'Fiction'),
+(27, 'Kisah Tanah Jawa', 'Bonaventura D. Genta, Mada Zidan', '9789876543214', 2018, 1, 'Kisah Tanah Jawa.png', 'Horror'),
+(28, 'KKN di Desa Penari', 'Simple Man', '9789876543215', 2018, 1, 'KKN di Desa Penari.png', 'Horror'),
+(29, 'Sebuah Seni untuk Bersikap Bodo Amat', 'Mark Manson', '9780062457714', 2018, 1, 'Sebuah Seni untuk Bersikap Bodo Amat.png', 'Self-help Book'),
+(30, 'The Lean Startup', 'Eric Ries', '90813901803', 2019, 1, 'The Lean Startup.png', 'Non-Fiction');
 
 -- --------------------------------------------------------
 
@@ -188,7 +189,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `borrowed_books`
