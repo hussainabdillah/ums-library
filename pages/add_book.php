@@ -185,6 +185,10 @@ $name = $_SESSION["name"];
                                 <input type="text" name="isbn" id="isbn" class="form-control" required>
                             </div>
                             <div class="form-group">
+                                <label for="genre">Genre</label>
+                                <input type="text" name="genre" id="genre" class="form-control" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="cover">Cover</label>
                                 <br>
                                 <input type="file" name="cover" id="cover" required>

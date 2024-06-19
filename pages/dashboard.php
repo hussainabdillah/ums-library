@@ -35,13 +35,13 @@ if ($result) {
 }
 
 // Query to get the count of members
-$sql = "SELECT COUNT(*) AS total_members FROM member";
+$sql = "SELECT COUNT(DISTINCT genre) AS total_genres FROM books";
 $result = mysqli_query($conn, $sql);
 
-$totalMembers = 0;
+$totalGenres = 0;
 if ($result) {
     $row = mysqli_fetch_assoc($result);
-    $totalMembers = $row['total_members'];
+    $totalGenres = $row['total_genres'];
 } else {
     echo "Error fetching total members: " . mysqli_error($conn);
 }
@@ -286,12 +286,12 @@ mysqli_close($conn);
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Member
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Genre
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalMembers; ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totalGenres; ?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                            <i class="fas fa-book fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>

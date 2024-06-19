@@ -14,12 +14,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $author = $_POST['author'];
     $published_year = $_POST['published_year'];
     $isbn = $_POST['isbn'];
+    $genre = $_POST['genre'];
 
     $target_dir = "../img/cover/";
 
     // Ensure the target directory exists
     if (!is_dir($target_dir)) {
         mkdir($target_dir, 0777, true);
+    }
+
+    // Check if there is a comma in the genre and take only the part before the first comma
+    $comma_position = strpos($genre, ',');
+    if ($comma_position !== false) {
+        $genre = substr($genre, 0, $comma_position);
+        $genre = trim($genre);
     }
 
     // Process the cover file if uploaded
@@ -45,10 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Query SQL untuk memasukkan data buku baru
-    $sql = "INSERT INTO books (title, author, published_year, isbn, cover) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO books (title, author, published_year, isbn, cover, genre) VALUES (?, ?, ?, ?, ?, ?)";
     
     if ($stmt = mysqli_prepare($conn, $sql)) {
-        mysqli_stmt_bind_param($stmt, "ssiss", $title, $author, $published_year, $isbn, $cover);
+        mysqli_stmt_bind_param($stmt, "ssisss", $title, $author, $published_year, $isbn, $cover, $genre);
         
         // Eksekusi query
         if (mysqli_stmt_execute($stmt)) {
