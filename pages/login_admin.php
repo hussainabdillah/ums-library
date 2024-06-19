@@ -1,44 +1,44 @@
 <?php
 session_start();
-require 'includes/config.php';
+require '../includes/config.php';
 
 $login_err = '';
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
-    $email = $_POST['email'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
 
     // Prepare and execute the query
-    $sql = "SELECT member_id, name, email FROM member WHERE email = ? AND password = ?";
+    $sql = "SELECT id, name, username FROM admin WHERE username = ? AND password = ?";
     if ($stmt = mysqli_prepare($conn, $sql)) {
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+        mysqli_stmt_bind_param($stmt, "ss", $username, $password);
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
             // Store result
             mysqli_stmt_store_result($stmt);
 
-            // Check if email and password match
+            // Check if username and password match
             if (mysqli_stmt_num_rows($stmt) == 1) {
                 // Bind result variables
-                mysqli_stmt_bind_result($stmt, $member_id, $name, $email);
+                mysqli_stmt_bind_result($stmt, $id, $name, $username);
                 mysqli_stmt_fetch($stmt);
 
                 // Start a new session
                 $_SESSION['loggedin'] = true;
-                $_SESSION['member_id'] = $member_id;
+                $_SESSION['id'] = $id;
                 $_SESSION['name'] = $name;
-                $_SESSION['email'] = $email;
+                $_SESSION['username'] = $username;
 
-                // Redirect to the dashboard
-                header("Location: pages/dashboard.php");
+                // Redirect to the dashboard admin
+                header("Location: dashboard_admin.php");
                 exit;
             } else {
-                // Display an error message if email or password is invalid
-                $login_err = "Invalid email or password.";
+                // Display an error message if username or password is invalid
+                $login_err = "Invalid username or password.";
             }
         } else {
             echo "Oops! Something went wrong. Please try again later.";
@@ -66,11 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>UMS Library - Login</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="../css/sb-admin-2.css" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-primary">
@@ -86,11 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Login as Admin!</h1>
                                     </div>
                                     <form class="user" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                                         <div class="form-group">
-                                            <input type="email" name="email" class="form-control form-control-user" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
+                                            <input type="username" name="username" class="form-control form-control-user" id="inputUsername" aria-describedby="usernameHelp" placeholder="Enter Username..." required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user" id="inputPassword" placeholder="Password" required>
@@ -104,9 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         ?>
                                     </form>
                                     <div class="text-center">
-                                        <a class="small" href="pages/register.php">Create an Account!</a>
-                                        <br>
-                                        <a class="small" href="pages/login_admin.php">Login as Admin</a>
+                                        <a class="small" href="../index.php">Login as Member</a>
                                     </div>
                                 </div>
                             </div>
