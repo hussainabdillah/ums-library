@@ -6,30 +6,39 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-require '../includes/config.php';
-
-$id = $_SESSION["id"];
 $name = $_SESSION["name"];
-
-
+$id = $_SESSION["id"];
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>UMS Library - Add Book</title>
+
+    <title>UMS Library - Books</title>
+
+    <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+
 </head>
+
 <body id="page-top">
+
     <!-- Page Wrapper -->
     <div id="wrapper">
+
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -60,26 +69,26 @@ $name = $_SESSION["name"];
             </div>
             
             <!-- Nav Item - Books -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="books_admin.php">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>List of Books</span></a>
             </li>
 
             <!-- Nav Item - Add Books -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="add_book.php">
                     <i class="fas fa-fw fa-plus-circle"></i>
                     <span>Add Books</span></a>
             </li>
             
-            <!-- Nav Item - Delete Books -->
+            <!-- Nav Item - Delete Book -->
             <li class="nav-item">
                 <a class="nav-link" href="delete_book.php">
                     <i class="fas fa-fw fa-trash"></i>
                     <span>Delete Books</span></a>
             </li>
-
+            
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -106,11 +115,13 @@ $name = $_SESSION["name"];
 
         </ul>
         <!-- End of Sidebar -->
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
+
             <!-- Main Content -->
             <div id="content">
+
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -153,54 +164,47 @@ $name = $_SESSION["name"];
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <!-- Page Heading -->
                 <div class="container-fluid">
+
+                    <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Add Books</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Available Books</h1>
+                        
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
-                      <div class="col-lg-12">
-                        <div class="card shadow mb-4">
-                          <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Add New Book</h6>
-                          </div>
-                        <div class="card-body">
-                          <form action="process_add_book.php" method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" name="title" id="title" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="author">Author</label>
-                                <input type="text" name="author" id="author" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="published_year">Published Year</label>
-                                <input type="number" name="published_year" id="published_year" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="isbn">ISBN</label>
-                                <input type="text" name="isbn" id="isbn" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cover">Cover</label>
-                                <br>
-                                <input type="file" name="cover" id="cover" required>
-                            </div> 
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Add Book</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
+
+                    <?php
+                        require '../includes/config.php';
+
+                        // Ambil data buku dari database
+                        $sql = "SELECT cover, title, author, published_year FROM books";
+                        $result = mysqli_query($conn, $sql);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            // Tampilkan data buku dalam bentuk card
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo '<div class="col-lg-3 col-md-6 mb-4">';
+                                echo '    <div class="card shadow mb-4">';
+                                echo '        <img class="card-img-top" src="../img/cover/' . htmlspecialchars($row["cover"]) . '" alt="' . htmlspecialchars($row["title"]) . '">';
+                                echo '        <div class="card-body">';
+                                echo '            <h5 class="card-title">' . htmlspecialchars($row["title"]) . '</h5>';
+                                echo '            <p class="card-text">By ' . htmlspecialchars($row["author"]) . '</p>';
+                                echo '            <p class="card-text">Published: ' . htmlspecialchars($row["published_year"]) . '</p>';
+                                echo '        </div>';
+                                echo '    </div>';
+                                echo '</div>';
+                            }
+                        } else {
+                            echo "No books found.";
+                        }
+
+                        mysqli_close($conn);
+                        ?>
+                        
                     </div>
 
-                    </div>
-
-                    <!-- Content Row -->
-                    
                 </div>
                 <!-- /.container-fluid -->
 
@@ -216,6 +220,7 @@ $name = $_SESSION["name"];
                 </div>
             </footer>
             <!-- End of Footer -->
+
         </div>
         <!-- End of Content Wrapper -->
 
@@ -250,14 +255,20 @@ $name = $_SESSION["name"];
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+
     <!-- Page level plugins -->
     <script src="../vendor/chart.js/Chart.min.js"></script>
+
     <!-- Page level custom scripts -->
     <script src="../js/demo/chart-area-demo.js"></script>
     <script src="../js/demo/chart-pie-demo.js"></script>
+
 </body>
+
 </html>

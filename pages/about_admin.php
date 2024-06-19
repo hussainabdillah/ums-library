@@ -1,16 +1,14 @@
 <?php
 session_start();
+require_once '../includes/config.php';
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: ../index.php");
     exit;
 }
 
-require '../includes/config.php';
-
-$id = $_SESSION["id"];
 $name = $_SESSION["name"];
-
+$id = $_SESSION["id"];
 
 ?>
 
@@ -22,7 +20,7 @@ $name = $_SESSION["name"];
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>UMS Library - Add Book</title>
+    <title>UMS Library - About</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
@@ -67,7 +65,7 @@ $name = $_SESSION["name"];
             </li>
 
             <!-- Nav Item - Add Books -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="add_book.php">
                     <i class="fas fa-fw fa-plus-circle"></i>
                     <span>Add Books</span></a>
@@ -81,7 +79,7 @@ $name = $_SESSION["name"];
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -90,8 +88,8 @@ $name = $_SESSION["name"];
 
             <!-- Nav Item - About -->
 
-            <li class="nav-item">
-                <a class="nav-link" href="about_admin.php">
+            <li class="nav-item active">
+                <a class="nav-link" href="about.php">
                     <i class="fas fa-fw fa-info-circle"></i>
                     <span>About Us</span></a>
             </li>
@@ -156,51 +154,76 @@ $name = $_SESSION["name"];
                 <!-- Page Heading -->
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Add Books</h1>
+                        <h1 class="h3 mb-0 text-gray-800">About Us</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
-                      <div class="col-lg-12">
-                        <div class="card shadow mb-4">
-                          <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Add New Book</h6>
-                          </div>
-                        <div class="card-body">
-                          <form action="process_add_book.php" method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" name="title" id="title" class="form-control" required>
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Our Mission</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>At UMS Library, our mission is to provide access to a vast collection of resources to support the educational and research needs of our community. We strive to create a welcoming environment where learning and creativity can thrive.</p>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="author">Author</label>
-                                <input type="text" name="author" id="author" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="published_year">Published Year</label>
-                                <input type="number" name="published_year" id="published_year" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="isbn">ISBN</label>
-                                <input type="text" name="isbn" id="isbn" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cover">Cover</label>
-                                <br>
-                                <input type="file" name="cover" id="cover" required>
-                            </div> 
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Add Book</button>
-                            </div>
-                          </form>
                         </div>
-                      </div>
-                    </div>
 
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Our Vision</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>We envision a future where UMS Library is the cornerstone of academic and intellectual growth, fostering a community of lifelong learners and innovative thinkers. We aim to be a leader in library services, embracing new technologies and ideas.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Content Row -->
-                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Our History</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>Founded in  25 October 1981, UMS Library has grown from a small collection of books to a comprehensive resource center. Over the years, we have expanded our services and collections to meet the evolving needs of our community. Our dedicated staff works tirelessly to maintain the highest standards of service and resource management.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Contact Us</h6>
+                                </div>
+                                <div class="card-body">
+                                <p>If you have any questions or need assistance, please feel free to reach out to us. Our team is here to help you with all your library needs.</p>
+                                    <table>
+                                      <tr>
+                                        <td><strong>Address</strong></td>
+                                        <td>:</td>
+                                        <td> Jl. A. Yani Tromol Pos I Pabelan Surakarta 57102.</td>
+                                      </tr>
+                                      <tr>
+                                        <td><strong>Phone</strong></td>
+                                        <td>:</td>
+                                        <td> (0813) 2685 9003</td>
+                                      </tr>
+                                      <tr>
+                                        <td><strong>Email</strong></td>
+                                        <td>:</td>
+                                        <td> library@ums.edu</td>
+                                      </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- /.container-fluid -->
 

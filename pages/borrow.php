@@ -105,20 +105,6 @@ if ($stmt = mysqli_prepare($conn, $sql_borrowed_books)) {
                     <span>List of Books</span></a>
             </li>
 
-            <!-- Nav Item - Add Books -->
-            <li class="nav-item">
-                <a class="nav-link" href="add_book.php">
-                    <i class="fas fa-fw fa-plus-circle"></i>
-                    <span>Add Books</span></a>
-            </li>
-            
-            <!-- Nav Item - Delete Book -->
-            <li class="nav-item">
-                <a class="nav-link" href="delete_book.php">
-                    <i class="fas fa-fw fa-trash"></i>
-                    <span>Delete Books</span></a>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

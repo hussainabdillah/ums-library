@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($conn);
 }
 
-$member_id = $_SESSION["id"];
+$id = $_SESSION["id"];
 $name = $_SESSION["name"];
 ?>
 
@@ -68,7 +68,7 @@ $name = $_SESSION["name"];
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="dashboard.php">
+                <a class="nav-link" href="dashboard_admin.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -78,7 +78,7 @@ $name = $_SESSION["name"];
             <div class="sidebar-heading">Books</div>
             <!-- Nav Item - Books -->
             <li class="nav-item">
-                <a class="nav-link" href="books.php">
+                <a class="nav-link" href="books_admin.php">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>List of Books</span></a>
             </li>
@@ -94,29 +94,14 @@ $name = $_SESSION["name"];
                     <i class="fas fa-fw fa-trash"></i>
                     <span>Delete Books</span></a>
             </li>
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-            <!-- Heading -->
-            <div class="sidebar-heading">Services</div>
-            <!-- Nav Item - Borrow -->
-            <li class="nav-item">
-                <a class="nav-link" href="borrow.php">
-                    <i class="fas fa-fw fa-shopping-cart"></i>
-                    <span>Borrow</span></a>
-            </li>
-            <!-- Nav Item - Return -->
-            <li class="nav-item">
-                <a class="nav-link" href="return.php">
-                    <i class="fas fa-fw fa-handshake"></i>
-                    <span>Return</span></a>
-            </li>
+            
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">About</div>
             <!-- Nav Item - About -->
             <li class="nav-item">
-                <a class="nav-link" href="about.php">
+                <a class="nav-link" href="about_admin.php">
                     <i class="fas fa-fw fa-info-circle"></i>
                     <span>About Us</span></a>
             </li>

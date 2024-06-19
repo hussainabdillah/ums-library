@@ -130,7 +130,7 @@ mysqli_close($conn);
             
             <!-- Nav Item - Books -->
             <li class="nav-item">
-                <a class="nav-link" href="books.php">
+                <a class="nav-link" href="books_admin.php">
                     <i class="fas fa-fw fa-book-open"></i>
                     <span>List of Books</span></a>
             </li>
@@ -160,7 +160,7 @@ mysqli_close($conn);
             <!-- Nav Item - About -->
 
             <li class="nav-item">
-                <a class="nav-link" href="about.php">
+                <a class="nav-link" href="about_admin.php">
                     <i class="fas fa-fw fa-info-circle"></i>
                     <span>About Us</span></a>
             </li>
