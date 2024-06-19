@@ -8,7 +8,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 require '../includes/config.php';
 
-$member_id = $_SESSION["member_id"];
+$member_id = $_SESSION["id"];
 $name = $_SESSION["name"];
 
 
@@ -189,7 +189,7 @@ $name = $_SESSION["name"];
                             <h6 class="m-0 font-weight-bold text-primary">Add New Book</h6>
                           </div>
                         <div class="card-body">
-                          <form action="process_add_book.php" method="post">
+                          <form action="process_add_book.php" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input type="text" name="title" id="title" class="form-control" required>
@@ -206,6 +206,11 @@ $name = $_SESSION["name"];
                                 <label for="isbn">ISBN</label>
                                 <input type="text" name="isbn" id="isbn" class="form-control" required>
                             </div>
+                            <div class="form-group">
+                                <label for="cover">Cover</label>
+                                <br>
+                                <input type="file" name="cover" id="cover" required>
+                            </div> 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Add Book</button>
                             </div>

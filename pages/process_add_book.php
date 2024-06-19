@@ -14,7 +14,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $author = $_POST['author'];
     $published_year = $_POST['published_year'];
     $isbn = $_POST['isbn'];
-    $cover = $title . '.png'; // Generate cover filename
+
+    $target_dir = "../img/cover/";
+
+    // Ensure the target directory exists
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+
+    // Process the cover file if uploaded
+    if (isset($_FILES['cover']) && $_FILES['cover']['error'] == UPLOAD_ERR_OK) {
+        $cover_file = $_FILES['cover'];
+        $file_extension = pathinfo($cover_file['name'], PATHINFO_EXTENSION);
+        
+        // Replace spaces and special characters in the title
+        $sanitized_title = preg_replace('/[^A-Za-z0-9\-]/', '_', $title);
+
+        // Construct the new file name
+        $cover = $sanitized_title . '.' . $file_extension;
+        $target_file = $target_dir . $cover;
+
+        // Move the uploaded file to the target directory
+        if (!move_uploaded_file($cover_file['tmp_name'], $target_file)) {
+            echo "Sorry, there was an error uploading your file.";
+            exit;
+        }
+    } else {
+        echo "No file was uploaded or there was an upload error.";
+        exit;
+    }
 
     // Query SQL untuk memasukkan data buku baru
     $sql = "INSERT INTO books (title, author, published_year, isbn, cover) VALUES (?, ?, ?, ?, ?)";

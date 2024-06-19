@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($conn);
 }
 
-$member_id = $_SESSION["member_id"];
+$member_id = $_SESSION["id"];
 $name = $_SESSION["name"];
 ?>
 
