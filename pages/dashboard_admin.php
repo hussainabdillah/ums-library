@@ -10,10 +10,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 $name = $_SESSION["name"];
 $id = $_SESSION["id"];
 
-// Query to get the count of borrowed books
-$sql = "SELECT COUNT(*) as total_borrowed_books FROM borrowed_books WHERE member_id = ?";
+// Query to get the count of all borrowed books
+$sql = "SELECT COUNT(*) as total_borrowed_books FROM borrowed_books";
 if ($stmt = mysqli_prepare($conn, $sql)) {
-    mysqli_stmt_bind_param($stmt, "i", $member_id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $total_borrowed_books);
     mysqli_stmt_fetch($stmt);
@@ -21,6 +20,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
 } else {
     $total_borrowed_books = 0;
 }
+
 
 // Query to get the count of books
 $sql = "SELECT COUNT(*) AS total_books FROM books";
@@ -46,18 +46,17 @@ if ($result) {
     echo "Error fetching total members: " . mysqli_error($conn);
 }
 
-// Query to get the count of late returned books
+// Query to get the count of all late returned books
 $sql_late_books = "
 SELECT 
     COUNT(*) AS late_books_count
 FROM 
     borrowed_books 
 WHERE 
-    member_id = ? AND returned_date IS NOT NULL AND returned_date > return_date
+    returned_date IS NOT NULL AND returned_date > return_date
 ";
 
 if ($stmt = mysqli_prepare($conn, $sql_late_books)) {
-    mysqli_stmt_bind_param($stmt, "i", $member_id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $late_books_count);
     mysqli_stmt_fetch($stmt);
@@ -65,6 +64,7 @@ if ($stmt = mysqli_prepare($conn, $sql_late_books)) {
 } else {
     $late_books_count = 0; // Default value if query fails
 }
+
 
 // Close connection
 mysqli_close($conn);
