@@ -242,7 +242,7 @@ mysqli_close($conn);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Borrowed Books</div>
+                                                Total Borrowed Books</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_borrowed_books; ?></div>
                                         </div>
                                         <div class="col-auto">
@@ -296,7 +296,7 @@ mysqli_close($conn);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Books Returned Late</div>
+                                                Total Books Returned Late</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $late_books_count; ?></div>
                                         </div>
                                         <div class="col-auto">

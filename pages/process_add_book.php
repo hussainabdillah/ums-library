@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Eksekusi query
         if (mysqli_stmt_execute($stmt)) {
             // Redirect ke halaman books jika berhasil
-            header("Location: books.php");
+            header("Location: books_admin.php");
         } else {
             echo "Error: Could not execute query: $sql. " . mysqli_error($conn);
         }
